@@ -2,9 +2,7 @@
 
 ## Project Overview
 
-The **GitHub Repo Improver Agent** is the capstone project for the Agentic AI Developer Certification Program. It transforms the functional multi-agent prototype (Module 2) into a robust, production-grade system compliant with professional software standards.
-
-The application automatically analyzes a public GitHub repository and generates structured, actionable suggestions for improving documentation, discoverability, and project clarity.
+The **GitHub Repo Improver Agent** application automatically analyzes a public GitHub repository and generates structured, actionable suggestions for improving documentation, discoverability, and project clarity.
 
 ---
 
