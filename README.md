@@ -1,120 +1,77 @@
-🚀 GitHub Repo Improver Agent: Production-Ready
-Project Overview
-The GitHub Repo Improver Agent is the capstone project for the Agentic AI Developer Certification Program. It transforms the functional multi-agent prototype (Module 2) into a robust, production-grade system compliant with professional software standards.
+# 🚀 GitHub Repo Improver Agent: Production-Ready Capstone
+
+## Project Overview
+
+The **GitHub Repo Improver Agent** is the capstone project for the Agentic AI Developer Certification Program. It transforms the functional multi-agent prototype (Module 2) into a robust, production-grade system compliant with professional software standards.
 
 The application automatically analyzes a public GitHub repository and generates structured, actionable suggestions for improving documentation, discoverability, and project clarity.
 
-🛠️ Module 3 Professional Enhancements
+---
+
+## 🛠️ Module 3 Professional Enhancements
+
 This system is enhanced with features required for operational excellence, security, and quality assurance:
 
-Feature
+| Feature | Implementation | Module 3 Requirement |
+| :--- | :--- | :--- |
+| **Resilience** | **Retry Logic with Exponential Backoff** (in `ContentImproverAgent`) to prevent failure from transient LLM API network errors. | **Operational Excellence** |
+| **Guardrails** | **Input Validation** (regex check on URL format in `app.py`) and **Secure Environment Handling** (`.gitignore`). | **Security & Safety** |
+| **Quality Assurance** | **Comprehensive Testing Suite** (`tests/test_agents.py`) including Unit and Integration Tests for core functionality. | **Test Coverage (70%+)** |
+| **UX Improvement** | Streamlit UI (`app.py`) enhanced with clear logging and graceful handling of agent failures. | **User Interface** |
 
-Implementation
+---
 
-Module 3 Requirement
+## 🧠 System Architecture and Agent Flow
 
-Resilience
+The system utilizes a sequential **LangGraph** pipeline for controlled collaboration.
 
-Retry Logic with Exponential Backoff (in ContentImproverAgent) to prevent failure from transient LLM API network errors.
+| Agent | Core Task | Required Tools |
+| :--- | :--- | :--- |
+| **1. RepoAnalyzerAgent** | **Repository Preparation.** Clones the public target repo (using OS temporary directory to avoid permissions issues), performs **Text Chunking**, and initializes the RAG Retriever. | **Repo Reader** (`gitpython`), **RAG Retriever** (`FAISS`). |
+| **2. MetadataRecommenderAgent** | **Keyword & Tag Extraction.** Identifies key topics and technical terms. | **Keyword Extractor** (`nltk`). |
+| **3. ContentImproverAgent** | **Structured Generation.** Synthesizes suggestions, enforcing a Pydantic structure, with built-in **Retry Logic** for API stability. | **LLM API** (OpenRouter/GPT-4o Mini). |
 
-Operational Excellence
+---
 
-Guardrails
+## ⚙️ Technical Specifications
 
-Input Validation (regex check on URL format in app.py) and Secure Environment Handling (.gitignore).
+### I. Setup and Installation Instructions
 
-Security & Safety
+1.  **Prerequisites:** Ensure **Python 3.10+** and the **Git Command-Line Tool** are installed.
 
-Quality Assurance
+2.  **Clone the Repository** and install dependencies:
 
-Comprehensive Testing Suite (tests/test_agents.py) including Unit and Integration Tests for core functionality.
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Test Coverage (70%+)
+3.  **Secure Configuration:** Create a **`.env`** file for your `OPENROUTER_API_KEY`. (The repository's `.gitignore` automatically prevents this file from being pushed.)
 
-UX Improvement
+4.  **NLTK Data:** Download required NLP resources:
 
-Streamlit UI (app.py) enhanced with clear logging and graceful handling of agent failures.
+    ```bash
+    python -c "import nltk; nltk.download('stopwords')"
+    ```
 
-User Interface
+### II. RAG and Quality Assurance
 
-🧠 System Architecture and Agent Flow
-The system utilizes a sequential LangGraph pipeline for controlled collaboration.
+| Setting | Value | Rationale |
+| :--- | :--- | :--- |
+| **Test Coverage** | **70%+** | Achieved via Unit and Integration tests in the `tests/` directory. |
+| **Text Chunk Size** | `1000` | Maintains contextual integrity for code and documentation. |
+| **Text Chunk Overlap** | `200` | Ensures semantic continuity for RAG retrieval. |
+| **Embedding Model** | `HuggingFaceEmbeddings(all-MiniLM-L6-v2)` | Fast, local embedding for efficient RAG index creation. |
 
-Agent
+### III. Running the System
 
-Core Task
+1.  **Launch the App:** Run the Streamlit UI (use Administrator mode for best results):
 
-Required Tools
+    ```bash
+    python -m streamlit run app.py
+    ```
 
-1. RepoAnalyzerAgent
+2.  **Run Tests (Verification):** To verify core functionality and resilience:
 
-Repository Preparation. Clones the public target repo (using OS temporary directory to avoid permissions issues), performs Text Chunking, and initializes the RAG Retriever.
-
-Repo Reader (gitpython), RAG Retriever (FAISS).
-
-2. MetadataRecommenderAgent
-
-Keyword & Tag Extraction. Identifies key topics and technical terms.
-
-Keyword Extractor (nltk).
-
-3. ContentImproverAgent
-
-Structured Generation. Synthesizes suggestions, enforcing a Pydantic structure, with built-in Retry Logic for API stability.
-
-LLM API (OpenRouter/GPT-4o Mini).
-
-⚙️ Technical Specifications
-I. Setup and Installation Instructions
-Prerequisites: Ensure Python 3.10+ and the Git Command-Line Tool are installed.
-
-Clone the Repository and install dependencies:
-
-pip install -r requirements.txt
-
-Secure Configuration: Create a .env file for your OPENROUTER_API_KEY. (The repository's .gitignore automatically prevents this file from being pushed.)
-
-NLTK Data: Download required NLP resources:
-
-python -c "import nltk; nltk.download('stopwords')"
-
-II. RAG and Quality Assurance
-Setting
-
-Value
-
-Rationale
-
-Test Coverage
-
-70%+
-
-Achieved via Unit and Integration tests in the tests/ directory.
-
-Text Chunk Size
-
-1000
-
-Maintains contextual integrity for code and documentation.
-
-Text Chunk Overlap
-
-200
-
-Ensures semantic continuity for RAG retrieval.
-
-Embedding Model
-
-HuggingFaceEmbeddings(all-MiniLM-L6-v2)
-
-Fast, local embedding for efficient RAG index creation.
-
-III. Running the System
-Launch the App: Run the Streamlit UI (use Administrator mode for best results):
-
-python -m streamlit run app.py
-
-Run Tests (Verification): To verify core functionality and resilience:
-
-python -m unittest tests.test_agents
-
+    ```bash
+    python -m unittest tests.test_agents
+    ```
